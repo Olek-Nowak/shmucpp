@@ -1,26 +1,38 @@
-#include "template.h"
 #include <SFML/Graphics.hpp>
+#include "windowManager.h"
+#include "gameManager.h"
 using namespace std;
 
-int main()
-{
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+bool gameRunning;
+int res[2] = {900, 600};
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+// main used for init, game loop and integration
+int main() {
+    gameRunning = 1;
+    gameManager gm = gameManager::getInstance();
+    windowManager wm = windowManager::getInstance();
+    wm.setup(res);
+    while(gameRunning) {
+        sf::Event e = wm.pollEvents();
+        switch (e.type) {
+        case sf::Event::Closed:
+            gameRunning = 0;
+            break;
+        case sf::Event::KeyPressed:
+            switch (e.key.code) {
+            case sf::Keyboard::Left:
+                gm.input_left();
+                wm.testInputs(sf::Color::Green);
+                break;
+            case sf::Keyboard::Right:
+                gm.input_right();
+                wm.testInputs(sf::Color::Red);
+                break;
+            }
+            break;
+        }        
 
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
+    } 
 
     return 0;
 }
