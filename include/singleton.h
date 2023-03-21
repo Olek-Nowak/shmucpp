@@ -1,11 +1,11 @@
 #ifndef SINGLETON
 #define SINGLETON
 
-class Singleton {
+class singleton {
 protected:
-    Singleton();
+    singleton();
 public:
-    static Singleton& getInstance();
+    static singleton& getInstance();
 
 };
 

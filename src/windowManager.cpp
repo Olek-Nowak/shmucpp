@@ -2,7 +2,8 @@
 using namespace std;
 
 windowManager::windowManager() {
-
+    mainWindow = new sf::RenderWindow(sf::VideoMode(900, 600), "shmuCPP");
+    mainWindow->clear();
 
 }
 
@@ -17,11 +18,6 @@ windowManager& windowManager::getInstance() {
 
 }
 
-void windowManager::setup(int res[2]) {
-    mainWindow = new sf::RenderWindow(sf::VideoMode(res[0], res[1]), "shmuCPP");
-    
-}
-
 sf::Event windowManager::pollEvents() {
     if (mainWindow->isOpen()) {
         sf::Event newEvent;
@@ -32,16 +28,17 @@ sf::Event windowManager::pollEvents() {
 
 }
 
-void windowManager::redraw() {
+void windowManager::clear() {
     mainWindow->clear();
 
 }
 
-void windowManager::testInputs(sf::Color color) {
-    mainWindow->clear();
-    sf::CircleShape shape(200.0f);
-    shape.setFillColor(color);
-    mainWindow->draw(shape);
+void windowManager::add(sf::Sprite s) {
+    mainWindow->draw(s);
+
+}
+
+void windowManager::show() {
     mainWindow->display();
 
 }

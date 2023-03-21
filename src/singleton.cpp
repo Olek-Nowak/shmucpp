@@ -1,12 +1,12 @@
 #include "singleton.h"
 using namespace std;
 
-Singleton::Singleton() {
+singleton::singleton() {
 
 
 }
 
-Singleton& Singleton::getInstance() {
+singleton& singleton::getInstance() {
 
 
 }
