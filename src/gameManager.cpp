@@ -2,7 +2,9 @@
 using namespace std;
 
 gameManager::gameManager() {
-    player = new entity(100, 100, 100, 5, 900, 600, "../resource/logo.png");
+    proj1 = new projectile(1, 1.5f, 100, 100, 2, "../resource/logo.png");
+    wep1 = new weapon(2.0f, *proj1);
+    player = new entity(100, 450, 450, 5, 900, 600, "../resource/logo.png", *wep1);
     gameOn_flag = 1;
     
 }
@@ -45,22 +47,24 @@ void gameManager::update() {
     player->move();
     player->setVel_x(0);
     player->setVel_y(0);
+    proj1->move();
 
 
     // DRAW CALLS
     wm.clear();
     wm.add(player->sprite);
+    wm.add(proj1->sprite);
     wm.show();
 
 }
 
 void gameManager::left_down() {
-    player->setVel_x(-0.5f);
+    player->setVel_x(-1.0f);
 
 }
 
 void gameManager::right_down() {
-    player->setVel_x(0.5f);
+    player->setVel_x(1.0f);
 
 }
 

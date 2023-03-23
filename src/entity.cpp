@@ -2,7 +2,7 @@
 #include "cmath"
 using namespace std;
 
-entity::entity(int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, string res) {
+entity::entity(int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, string res, weapon w) {
     pos[0] = startx;
     pos[1] = starty;
     maxHealth = hp;
@@ -48,10 +48,10 @@ float entity::getHitbox() {
 void entity::move() {
     pos[0] += vel[0];
     pos[1] += vel[1];
-    if(pos[0] > boundries[0])
+    /*if(pos[0] > boundries[0])
         pos[0] = boundries[0];
     if(pos[1] > boundries[1])
-        pos[1] = boundries[1];
+        pos[1] = boundries[1];*/
     sprite.setPosition(pos[0], pos[1]);
 
 }
