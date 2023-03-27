@@ -16,6 +16,7 @@ private:
     float boundries[2];
     sf::Texture texture;
 public:
+    bool visible;
     weapon* wep = nullptr;
     sf::Sprite sprite;
     entity(int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, std::string res, weapon w);

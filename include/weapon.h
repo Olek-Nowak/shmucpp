@@ -7,8 +7,7 @@ private:
     float cooldown;
     float maxCooldown;
 public:
-    projectile* p = nullptr;
-    weapon(float maxCD, projectile proj);
+    weapon(float maxCD);
     bool shoot();
 
 };

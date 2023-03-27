@@ -1,10 +1,9 @@
 #include "weapon.h"
 using namespace std;
 
-weapon::weapon(float maxCD, projectile proj) {
+weapon::weapon(float maxCD) {
     maxCooldown = maxCD;
     cooldown = maxCooldown;
-    p = new projectile(proj);
 
 }
 

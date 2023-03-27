@@ -5,23 +5,27 @@
 #include "entity.h"
 #include "weapon.h"
 #include "projectile.h"
+#include "pool.h"
+#include <list>
 
 class gameManager : singleton {
 private:
     gameManager();
-    projectile* proj1 = nullptr;
     weapon* wep1 = nullptr;
-    entity* player = nullptr;
     windowManager wm = windowManager::getInstance();
+    pool* p = nullptr;
+    std::list<projectile> index_projectile;
+    std::list<entity> index_entity;
 public:
     bool gameOn_flag;
     ~gameManager();
     static gameManager& getInstance();
-    void update();
     void left_down();
     void right_down();
+    void reset_input();
     void pause();
-
+    void update();
+    
 };
 
 

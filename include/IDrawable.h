@@ -7,6 +7,7 @@ protected:
     sf::Texture texture;
 public:
     sf::Sprite sprite;
+    bool visible;
 };
 
 #endif
