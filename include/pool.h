@@ -1,5 +1,6 @@
 #ifndef POOL
 #define POOL
+#include <string>
 #include "projectile.h"
 #include <vector>
 

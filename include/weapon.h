@@ -4,11 +4,11 @@
 
 class weapon {
 private:
-    float cooldown;
-    float maxCooldown;
+    int cooldown;
+    int maxCooldown;
 public:
-    weapon(float maxCD);
-    bool shoot();
+    weapon(int maxCD);
+    bool shoot(int frameTime);
 
 };
 

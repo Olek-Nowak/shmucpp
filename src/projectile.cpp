@@ -3,17 +3,17 @@ using namespace std;
 
 projectile::projectile(string res) {
     visible = 0;
-    hitboxRadius = 5;
+    hitboxRadius = 5.0f;
     damage = 1;
-    shootSpeed = 0;
-    pos[0] = 0;
-    pos[1] = 0;
+    shootSpeed = 3.0f;
+    pos[0] = 0.0f;
+    pos[1] = 0.0f;
     texture.loadFromFile(res);
     sprite = sf::Sprite(texture);
     sprite.setPosition(0, 0);
     sprite.scale(0.5f, 0.5f);
     setVel_x(0.0f);
-    setVel_y(0.0f);
+    setVel_y(-1.0f * shootSpeed);
 
 }
 

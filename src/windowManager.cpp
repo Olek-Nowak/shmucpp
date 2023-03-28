@@ -3,6 +3,8 @@ using namespace std;
 
 windowManager::windowManager() {
     mainWindow = new sf::RenderWindow(sf::VideoMode(900, 600), "shmuCPP");
+    mainWindow->setFramerateLimit(60);
+    mainWindow->setVerticalSyncEnabled(1);
     mainWindow->clear();
 
 }

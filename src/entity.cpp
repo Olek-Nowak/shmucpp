@@ -12,6 +12,7 @@ entity::entity(int hp, float startx, float starty, float hitbox, float boundryx,
     boundries[1] = boundryy;
     vel[0] = 0.0f;
     vel[1] = 0.0f;
+    wep = new weapon(w);
     texture.loadFromFile(res);
     sprite = sf::Sprite(texture);
     sprite.setPosition(startx, starty);

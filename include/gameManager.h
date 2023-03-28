@@ -24,7 +24,7 @@ public:
     void right_down();
     void reset_input();
     void pause();
-    void update();
+    void update(int msElapsed);
     
 };
 
