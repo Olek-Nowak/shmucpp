@@ -11,7 +11,6 @@
 class gameManager : singleton {
 private:
     gameManager();
-    weapon* wep1 = nullptr;
     windowManager wm = windowManager::getInstance();
     pool* p = nullptr;
     std::list<projectile> index_projectile;

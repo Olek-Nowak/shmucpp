@@ -2,9 +2,9 @@
 using namespace std;
 
 gameManager::gameManager() {
-    wep1 = new weapon(500);
-    entity player = entity(100, 450, 450, 5, 900, 600, "../resource/logo.png", *wep1);
-    index_entity.push_front(player);
+    weapon wep1 = weapon(500);
+    entity* player = new entity(100, 450, 300, 5, 900, 600, "../resource/1.png", wep1);
+    index_entity.push_front(*player);
     p = new pool(100, "../resource/logo.png");
     gameOn_flag = 1;
 
@@ -42,6 +42,7 @@ void gameManager::pause() {
 
 void gameManager::update(int msElapsed) {
     // EVENT MANAGEMENT
+
     sf::Event e = wm.pollEvents();
     switch (e.type)
     {
@@ -72,7 +73,12 @@ void gameManager::update(int msElapsed) {
         break;
     }
 
-    // MOVING AND SHOOTING
+    // SPAWN NEW ENEMIES
+
+
+    // UPDATE GAMOBJECTS - MOVING SHOOTING, DRAWING
+
+    wm.clear();
     list<entity>::iterator ei = index_entity.begin();
     for(ei; ei != index_entity.end(); ei++) {
         ei->move();
@@ -83,23 +89,15 @@ void gameManager::update(int msElapsed) {
             index_projectile.push_back(temp);
 
         }
+        wm.add(ei->sprite);
 
     }
     list<projectile>::iterator pi = index_projectile.begin();
     for (pi; pi != index_projectile.end(); pi++) {
         pi->move();
-
-    }
-
-    // DRAW CALLS
-    wm.clear();
-    for (ei = index_entity.begin(); ei != index_entity.end(); ei++) {
-        wm.add(ei->sprite);
-
-    }
-    for (pi = index_projectile.begin(); pi != index_projectile.end(); pi++) {
         wm.add(pi->sprite);
 
     }
     wm.show();
+
 }
