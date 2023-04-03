@@ -1,10 +1,9 @@
+#include <cmath>
 #include "projectile.h"
 using namespace std;
 
-// TODO: collision detection
-
 projectile::projectile(string res) {
-    visible = 0;
+    disabled = 0;
     hitboxRadius = 5.0f;
     damage = 1;
     shootSpeed = 3.0f;
@@ -29,12 +28,17 @@ void projectile::setVel_y(float vy) {
 }
 
 float projectile::getDist(float x, float y) {
-
+    return sqrtf(powf((sprite.getPosition().x - x), 2.0f) + powf((sprite.getPosition().y - y), 2.0f));
 
 }
 
 float projectile::getHitbox() {
+    return hitboxRadius;
 
+}
+
+int projectile::getDamage() {
+    return damage;
 
 }
 

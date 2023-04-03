@@ -3,9 +3,9 @@
 using namespace std;
 
 // TODO: boundries
-// TODO: even sprite placement
 
 entity::entity(int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, string res, weapon w) {
+    disabled = 0;
     maxHealth = hp;
     health = maxHealth;
     hitboxRadius = hitbox;
@@ -16,6 +16,7 @@ entity::entity(int hp, float startx, float starty, float hitbox, float boundryx,
     wep = new weapon(w);
     texture.loadFromFile(res);
     sprite = sf::Sprite(texture);
+    // SFML standard sprite position is counted from top left corner, need to reset origin point
     sprite.setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
     sprite.setPosition(startx, starty);
 
@@ -24,7 +25,7 @@ entity::entity(int hp, float startx, float starty, float hitbox, float boundryx,
 void entity::onHit(int damage) {
     health -= damage;
     if(health <= 0)
-        destroy();
+        disabled = 1;
 
 }
 
@@ -48,7 +49,6 @@ float entity::getHitbox() {
 
 }
 
-/// @remark SFML standard sprite position is counted from top left corner
 void entity::move() {
     /*if(pos[0] > boundries[0])
         pos[0] = boundries[0];
@@ -59,5 +59,10 @@ void entity::move() {
 
 void entity::destroy() {
 
+
+}
+
+entity::~entity() {
+    delete wep;
 
 }

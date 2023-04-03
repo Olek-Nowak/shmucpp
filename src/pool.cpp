@@ -5,8 +5,8 @@ using namespace std;
 
 projectile pool::getNew() {
     for(int i = 0; i < num; i++) {
-        if(!bullets[i]->visible) {
-            bullets[i]->visible = 1;
+        if(!bullets[i]->disabled) {
+            bullets[i]->disabled = 1;
             return *(bullets[i]);
 
         }

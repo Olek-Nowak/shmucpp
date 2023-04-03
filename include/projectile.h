@@ -13,13 +13,14 @@ private:
     float boundries[2];
     sf::Texture texture;
 public:
-    bool visible;
+    bool disabled;
     sf::Sprite sprite;
     projectile(std::string res);
     void setVel_x(float vx);
     void setVel_y(float vy);
     float getDist(float x, float y);
     float getHitbox();
+    int getDamage();
     void move();
 
 };
