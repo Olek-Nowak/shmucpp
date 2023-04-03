@@ -11,7 +11,6 @@ private:
     int maxHealth;
     int health;
     float vel[2];
-    float pos[2];
     float hitboxRadius;
     float boundries[2];
     sf::Texture texture;

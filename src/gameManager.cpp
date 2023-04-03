@@ -1,12 +1,20 @@
 #include "gameManager.h"
 using namespace std;
 
+// TODO: enemy spawning
+// TODO: pause
+// TODO: entity destruction
+
 gameManager::gameManager() {
     weapon wep1 = weapon(500);
-    entity* player = new entity(100, 450, 300, 5, 900, 600, "../resource/1.png", wep1);
+    entity* player = new entity(100, 450, 400, 5, 900, 600, "../resource/1.png", wep1);
     index_entity.push_front(*player);
     p = new pool(100, "../resource/logo.png");
     gameOn_flag = 1;
+    for(int i = 0; i < 5; i++) {
+        spawnPoints[i] = 50 + i * (600 - 100) / 4;
+
+    }
 
 }
 
@@ -84,8 +92,7 @@ void gameManager::update(int msElapsed) {
         ei->move();
         if(ei->wep->shoot(msElapsed)) {
             projectile temp = p->getNew();
-            temp.setPos_x(ei->sprite.getPosition().x);
-            temp.setPos_y(ei->sprite.getPosition().y);
+            temp.sprite.setPosition(ei->sprite.getPosition() - sf::Vector2f(0.0f, 170.0f));
             index_projectile.push_back(temp);
 
         }

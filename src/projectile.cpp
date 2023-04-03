@@ -1,17 +1,18 @@
 #include "projectile.h"
 using namespace std;
 
+// TODO: collision detection
+
 projectile::projectile(string res) {
     visible = 0;
     hitboxRadius = 5.0f;
     damage = 1;
     shootSpeed = 3.0f;
-    pos[0] = 0.0f;
-    pos[1] = 0.0f;
     texture.loadFromFile(res);
     sprite = sf::Sprite(texture);
-    sprite.setPosition(0, 0);
+    sprite.setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
     sprite.scale(0.5f, 0.5f);
+    sprite.setPosition(0.0f, 0.0f);
     setVel_x(0.0f);
     setVel_y(-1.0f * shootSpeed);
 
@@ -27,16 +28,6 @@ void projectile::setVel_y(float vy) {
 
 }
 
-void projectile::setPos_x(float px) {
-    pos[0] = px;
-
-}
-
-void projectile::setPos_y(float py) {
-    pos[1] = py;
-
-}
-
 float projectile::getDist(float x, float y) {
 
 
@@ -48,8 +39,6 @@ float projectile::getHitbox() {
 }
 
 void projectile::move() {
-    pos[0] += vel[0];
-    pos[1] += vel[1];
-    sprite.setPosition(pos[0], pos[1]);
+    sprite.setPosition(sprite.getPosition().x + vel[0], sprite.getPosition().y + vel[1]);
     
 }

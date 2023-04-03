@@ -3,7 +3,6 @@
 
 class IPhysics {
 protected:
-    float pos[2];
     float vel[2];
     float hitboxRadius;
     float boundries[2];

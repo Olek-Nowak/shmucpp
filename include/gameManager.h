@@ -15,6 +15,7 @@ private:
     pool* p = nullptr;
     std::list<projectile> index_projectile;
     std::list<entity> index_entity;
+    float spawnPoints[5];
 public:
     bool gameOn_flag;
     ~gameManager();

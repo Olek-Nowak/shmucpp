@@ -2,9 +2,10 @@
 #include "cmath"
 using namespace std;
 
+// TODO: boundries
+// TODO: even sprite placement
+
 entity::entity(int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, string res, weapon w) {
-    pos[0] = startx;
-    pos[1] = starty;
     maxHealth = hp;
     health = maxHealth;
     hitboxRadius = hitbox;
@@ -15,6 +16,7 @@ entity::entity(int hp, float startx, float starty, float hitbox, float boundryx,
     wep = new weapon(w);
     texture.loadFromFile(res);
     sprite = sf::Sprite(texture);
+    sprite.setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
     sprite.setPosition(startx, starty);
 
 }
@@ -37,7 +39,7 @@ void entity::setVel_y(float vy) {
 }
 
 float entity::getDist(float x, float y) {
-    return sqrtf(powf((pos[0] - x), 2.0f) + powf((this->pos[1] - y), 2.0f));
+    return sqrtf(powf((sprite.getPosition().x - x), 2.0f) + powf((sprite.getPosition().y - y), 2.0f));
 
 }
 
@@ -46,15 +48,13 @@ float entity::getHitbox() {
 
 }
 
+/// @remark SFML standard sprite position is counted from top left corner
 void entity::move() {
-    pos[0] += vel[0];
-    pos[1] += vel[1];
     /*if(pos[0] > boundries[0])
         pos[0] = boundries[0];
     if(pos[1] > boundries[1])
         pos[1] = boundries[1];*/
-    sprite.setPosition(pos[0], pos[1]);
-
+    sprite.setPosition(sprite.getPosition().x + vel[0], sprite.getPosition().y + vel[1]);
 }
 
 void entity::destroy() {
