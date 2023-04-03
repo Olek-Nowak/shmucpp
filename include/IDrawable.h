@@ -4,7 +4,6 @@
 
 class IDrawable {
 protected:
-    sf::Texture texture;
 public:
     sf::Sprite sprite;
     bool disabled;

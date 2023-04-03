@@ -5,8 +5,8 @@ using namespace std;
 
 projectile pool::getNew() {
     for(int i = 0; i < num; i++) {
-        if(!bullets[i]->disabled) {
-            bullets[i]->disabled = 1;
+        if(bullets[i]->disabled) {
+            bullets[i]->disabled = 0;
             return *(bullets[i]);
 
         }
@@ -15,7 +15,7 @@ projectile pool::getNew() {
 
 }
 
-pool::pool(int buffer, string res) {
+pool::pool(int buffer, sf::Texture &res) {
     num = buffer;
     bullets.resize(num);
     for(int i = 0; i < num; i++) {

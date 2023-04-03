@@ -1,6 +1,5 @@
 #ifndef PROJECTILE
 #define PROJECTILE
-#include "string"
 #include "IPhysics.h"
 #include "IDrawable.h"
 
@@ -11,11 +10,10 @@ private:
     float vel[2];
     float hitboxRadius;
     float boundries[2];
-    sf::Texture texture;
 public:
     bool disabled;
     sf::Sprite sprite;
-    projectile(std::string res);
+    projectile(sf::Texture &res);
     void setVel_x(float vx);
     void setVel_y(float vy);
     float getDist(float x, float y);

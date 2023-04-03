@@ -2,14 +2,13 @@
 #include "projectile.h"
 using namespace std;
 
-projectile::projectile(string res) {
-    disabled = 0;
+projectile::projectile(sf::Texture &res) {
+    disabled = 1;
     hitboxRadius = 5.0f;
     damage = 1;
     shootSpeed = 3.0f;
-    texture.loadFromFile(res);
-    sprite = sf::Sprite(texture);
-    sprite.setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
+    sprite = sf::Sprite(res);
+    sprite.setOrigin(res.getSize().x / 2, res.getSize().y / 2);
     sprite.scale(0.5f, 0.5f);
     sprite.setPosition(0.0f, 0.0f);
     setVel_x(0.0f);

@@ -10,7 +10,7 @@ protected:
     int num;
 public:
     projectile getNew();
-    pool(int buffer, std::string res);
+    pool(int buffer, sf::Texture &res);
     ~pool();
 
 };

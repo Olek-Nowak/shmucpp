@@ -4,7 +4,7 @@ using namespace std;
 
 // TODO: boundries
 
-entity::entity(int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, string res, weapon w) {
+entity::entity(int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, sf::Texture &res, weapon w) {
     disabled = 0;
     maxHealth = hp;
     health = maxHealth;
@@ -14,10 +14,9 @@ entity::entity(int hp, float startx, float starty, float hitbox, float boundryx,
     vel[0] = 0.0f;
     vel[1] = 0.0f;
     wep = new weapon(w);
-    texture.loadFromFile(res);
-    sprite = sf::Sprite(texture);
+    sprite = sf::Sprite(res);
     // SFML standard sprite position is counted from top left corner, need to reset origin point
-    sprite.setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
+    sprite.setOrigin(res.getSize().x / 2, res.getSize().y / 2);
     sprite.setPosition(startx, starty);
 
 }

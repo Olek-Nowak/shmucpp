@@ -1,6 +1,5 @@
 #ifndef ENTITY
 #define ENTITY
-#include "string"
 #include "IPhysics.h"
 #include "IDamageable.h"
 #include "IDrawable.h"
@@ -13,12 +12,11 @@ private:
     float vel[2];
     float hitboxRadius;
     float boundries[2];
-    sf::Texture texture;
 public:
     bool disabled;
     weapon* wep = nullptr;
     sf::Sprite sprite;
-    entity(int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, std::string res, weapon w);
+    entity(int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, sf::Texture &res, weapon w);
     void onHit(int damage);
     void setVel_x(float vx);
     void setVel_y(float vy);

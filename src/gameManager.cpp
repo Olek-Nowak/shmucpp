@@ -6,13 +6,14 @@ using namespace std;
 // TODO: enemy bullets
 
 gameManager::gameManager() {
-    weapon wep1 = weapon(1200);
+    weapon basic = weapon(1200);
     weapon noWep = weapon(-1);
-    entity* player = new entity(5, 450, 500, 50, 900, 600, "../resource/1.png", wep1);
-    index_entity.push_front(*player);
-    entity *e = new entity(2, 200, 100, 50, 900, 600, "../resource/1.png", noWep);
-    index_entity.push_front(*e);
-    p = new pool(100, "../resource/logo.png");
+    playerTex.loadFromFile("../resource/1.png");
+    enemyTex.loadFromFile("../resource/1.png");
+    projectileTex.loadFromFile("../resource/logo.png");
+    index_entity.push_front(entity(5, 450, 500, 50, 900, 600, playerTex, basic));
+    index_entity.push_front(entity(2, 200, 100, 50, 900, 600, enemyTex, noWep));
+    p = new pool(100, projectileTex);
     gameOn_flag = 1;
     for(int i = 0; i < 5; i++) {
         spawnPoints[i] = 50 + i * (600 - 100) / 4;
@@ -22,6 +23,7 @@ gameManager::gameManager() {
 }
 
 gameManager::~gameManager() {
+    delete p;
     wm.~windowManager();
 
 }
@@ -93,18 +95,18 @@ void gameManager::update(int msElapsed) {
     list<entity>::iterator ei = index_entity.begin();
     list<projectile>::iterator pi = index_projectile.begin();
     for(ei; ei != index_entity.end(); ei++) {
+        // destroy
+        if(ei->disabled) {
+            ei->~entity();
+            ei = index_entity.erase(ei);
+
+        }
         // check collision
         while(pi != index_projectile.end()) {
             if(ei->getDist(pi->sprite.getPosition().x, pi->sprite.getPosition().y) <= ei->getHitbox() + pi->getHitbox()) {
-                pi->disabled = 0;
-                pi = index_projectile.erase(pi);
+                pi->disabled = 1;
                 ei->onHit(pi->getDamage());
-                if(ei->disabled) {
-                    ei = index_entity.erase(ei);
-                    ei->~entity();
-                    continue;
-
-                }
+                pi = index_projectile.erase(pi);
 
             }
             else {
