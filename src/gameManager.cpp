@@ -3,16 +3,17 @@ using namespace std;
 
 // TODO: enemy spawning
 // TODO: pause
-// TODO: enemy bullets
+// TODO: rework allegiance (store separately)
+// TODO: entity collision
 
 gameManager::gameManager() {
     weapon basic = weapon(1200);
-    weapon noWep = weapon(-1);
-    playerTex.loadFromFile("../resource/1.png");
-    enemyTex.loadFromFile("../resource/1.png");
-    projectileTex.loadFromFile("../resource/logo.png");
-    index_entity.push_front(entity(5, 450, 500, 50, 900, 600, playerTex, basic));
-    index_entity.push_front(entity(2, 200, 100, 50, 900, 600, enemyTex, noWep));
+    weapon noWep = weapon(4000);
+    shipTex.loadFromFile("../resource/1.png");
+    projectileTex.loadFromFile("../resource/2.png");
+    index_entity.push_front(entity(0, 3, 450, 500, 30, 900, 600, shipTex, basic));
+    index_entity.push_front(entity(1, 3, 200, 100, 30, 900, 600, shipTex, noWep));
+    index_entity.push_front(entity(1, 3, 800, 200, 30, 900, 600, shipTex, noWep));
     p = new pool(100, projectileTex);
     gameOn_flag = 1;
     for(int i = 0; i < 5; i++) {
@@ -94,40 +95,48 @@ void gameManager::update(int msElapsed) {
     wm.clear();
     list<entity>::iterator ei = index_entity.begin();
     list<projectile>::iterator pi = index_projectile.begin();
-    for(ei; ei != index_entity.end(); ei++) {
+    while(ei != index_entity.end()) {
+        pi = index_projectile.begin();
         // destroy
         if(ei->disabled) {
             ei->~entity();
             ei = index_entity.erase(ei);
 
         }
+        else {
         // check collision
-        while(pi != index_projectile.end()) {
-            if(ei->getDist(pi->sprite.getPosition().x, pi->sprite.getPosition().y) <= ei->getHitbox() + pi->getHitbox()) {
-                pi->disabled = 1;
-                ei->onHit(pi->getDamage());
-                pi = index_projectile.erase(pi);
+            while(pi != index_projectile.end()) {
+                // check overlapping between two circle colliders AND take XOR of their allegiance (enemy / friendly)
+                if((ei->getDist(pi->sprite.getPosition().x, pi->sprite.getPosition().y) <= ei->getHitbox() + pi->getHitbox()) && (!ei->getEnemy() != !pi->getEnemy())) {
+                    pi->disabled = 1;
+                    ei->onHit(pi->getDamage());
+                    pi = index_projectile.erase(pi);
+
+                }
+                else {
+                    pi++;
+
+                }
 
             }
-            else {
-                pi++;
-
-            }
-
-        }
         // move
-        ei->move();
-        //shoot
-        if(ei->wep->shoot(msElapsed)) {
-            projectile temp = p->getNew();
-            temp.sprite.setPosition(ei->sprite.getPosition() - sf::Vector2f(0.0f, 170.0f));
-            index_projectile.push_back(temp);
+            ei->move();
+        // shoot
+            if(ei->wep->shoot(msElapsed)) {
+                projectile temp = p->getNew(ei->getEnemy());
+                temp.sprite.setPosition(ei->sprite.getPosition());
+                index_projectile.push_back(temp);
+
+            }
+        // draw
+            wm.add(ei->sprite);
+        // increment
+            ei++;
 
         }
-        // draw
-        wm.add(ei->sprite);
 
     }
+
     for (pi = index_projectile.begin(); pi != index_projectile.end(); pi++) {
         // move
         pi->move();

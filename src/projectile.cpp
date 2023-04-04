@@ -9,7 +9,6 @@ projectile::projectile(sf::Texture &res) {
     shootSpeed = 3.0f;
     sprite = sf::Sprite(res);
     sprite.setOrigin(res.getSize().x / 2, res.getSize().y / 2);
-    sprite.scale(0.5f, 0.5f);
     sprite.setPosition(0.0f, 0.0f);
     setVel_x(0.0f);
     setVel_y(-1.0f * shootSpeed);
@@ -44,4 +43,24 @@ int projectile::getDamage() {
 void projectile::move() {
     sprite.setPosition(sprite.getPosition().x + vel[0], sprite.getPosition().y + vel[1]);
     
+}
+
+void projectile::setEnemy(bool unfriendly) {
+    enemy = unfriendly;
+    if(enemy) {
+        sprite.setRotation(180);
+        setVel_y(shootSpeed);
+
+    }
+    else {
+        sprite.setRotation(0);
+        setVel_y(-1.0f * shootSpeed);
+
+    }
+
+}
+
+bool projectile::getEnemy() {
+    return enemy;
+
 }

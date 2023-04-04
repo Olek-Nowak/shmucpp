@@ -13,8 +13,7 @@ private:
     gameManager();
     windowManager wm = windowManager::getInstance();
     pool* p = nullptr;
-    sf::Texture playerTex;
-    sf::Texture enemyTex;
+    sf::Texture shipTex;
     sf::Texture projectileTex;
     std::list<projectile> index_projectile;
     std::list<entity> index_entity;

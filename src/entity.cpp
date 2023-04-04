@@ -4,7 +4,7 @@ using namespace std;
 
 // TODO: boundries
 
-entity::entity(int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, sf::Texture &res, weapon w) {
+entity::entity(bool unfriendly, int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, sf::Texture &res, weapon w) {
     disabled = 0;
     maxHealth = hp;
     health = maxHealth;
@@ -18,7 +18,8 @@ entity::entity(int hp, float startx, float starty, float hitbox, float boundryx,
     // SFML standard sprite position is counted from top left corner, need to reset origin point
     sprite.setOrigin(res.getSize().x / 2, res.getSize().y / 2);
     sprite.setPosition(startx, starty);
-
+    setEnemy(unfriendly);
+    
 }
 
 void entity::onHit(int damage) {
@@ -63,5 +64,20 @@ void entity::destroy() {
 
 entity::~entity() {
     delete wep;
+
+}
+
+bool entity::getEnemy() {
+    return enemy;
+
+}
+
+void entity::setEnemy(bool unfriendly) {
+    enemy = unfriendly;
+    if(enemy) {
+        sprite.setRotation(180);
+
+    }
+    else sprite.setRotation(0);
 
 }

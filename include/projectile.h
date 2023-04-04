@@ -10,6 +10,7 @@ private:
     float vel[2];
     float hitboxRadius;
     float boundries[2];
+    bool enemy;
 public:
     bool disabled;
     sf::Sprite sprite;
@@ -20,6 +21,8 @@ public:
     float getHitbox();
     int getDamage();
     void move();
+    void setEnemy(bool unfriendly);
+    bool getEnemy();
 
 };
 

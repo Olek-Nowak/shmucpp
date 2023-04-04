@@ -3,10 +3,11 @@
 #include "projectile.h"
 using namespace std;
 
-projectile pool::getNew() {
+projectile pool::getNew(bool unfriendly) {
     for(int i = 0; i < num; i++) {
         if(bullets[i]->disabled) {
             bullets[i]->disabled = 0;
+            bullets[i]->setEnemy(unfriendly);
             return *(bullets[i]);
 
         }
