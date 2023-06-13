@@ -9,9 +9,8 @@ protected:
 public:
     virtual void setVel_x(float vx) = 0;
     virtual void setVel_y(float vy) = 0;
-    virtual float getDist(float x, float y) = 0;
     virtual float getHitbox() = 0;
-    virtual void move() = 0;
+    virtual bool update(int ms) = 0;
 
 };
 

@@ -1,33 +1,25 @@
 #ifndef ENTITY
 #define ENTITY
 #include "IPhysics.h"
-#include "IDamageable.h"
 #include "IDrawable.h"
-#include "weapon.h"
 
-class entity : IPhysics, IDamageable, IDrawable {
-private:
-    int maxHealth;
-    int health;
+class entity : IPhysics, IDrawable {
+protected:
     float vel[2];
     float hitboxRadius;
     float boundries[2];
-    bool enemy;
-public:
     bool disabled;
-    weapon* wep = nullptr;
+public:
     sf::Sprite sprite;
-    entity(bool unfriendly, int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, sf::Texture &res, weapon w);
-    void onHit(int damage);
+    entity();
+    virtual ~entity();
     void setVel_x(float vx);
     void setVel_y(float vy);
-    float getDist(float x, float y);
+    virtual bool checkCollision(entity e);
     float getHitbox();
-    void move();
-    void destroy();
-    ~entity();
-    bool getEnemy();
-    void setEnemy(bool unfriendly);
+    virtual bool update(int msElapsed);
+    bool getDisabled();
+    void setDisabled(bool d);
 
 };
 

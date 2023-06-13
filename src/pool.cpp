@@ -1,13 +1,10 @@
 #include "pool.h"
-#include "entity.h"
-#include "projectile.h"
 using namespace std;
 
-projectile pool::getNew(bool unfriendly) {
+projectile pool::getNew() {
     for(int i = 0; i < num; i++) {
-        if(bullets[i]->disabled) {
-            bullets[i]->disabled = 0;
-            bullets[i]->setEnemy(unfriendly);
+        if(bullets[i]->getDisabled()) {
+            bullets[i]->setDisabled(false);
             return *(bullets[i]);
 
         }

@@ -4,12 +4,9 @@
 
 class IDrawable {
 protected:
-    bool enemy;
+    bool disabled;
 public:
     sf::Sprite sprite;
-    bool disabled;
-    virtual bool getEnemy() = 0;
-    virtual void setEnemy(bool e) = 0;
     
 };
 
