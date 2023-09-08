@@ -5,10 +5,9 @@
 class projectile : public entity {
 private:
 public:
-    sf::Sprite sprite;
     projectile(sf::Texture &res);
-    bool checkCollision(entity e);
-    bool update(int msElapsed);
+    bool checkCollision(entity* e) override;
+    bool update(int msElapsed) override;
 
 };
 

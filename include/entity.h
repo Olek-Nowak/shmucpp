@@ -15,9 +15,9 @@ public:
     virtual ~entity();
     void setVel_x(float vx);
     void setVel_y(float vy);
-    virtual bool checkCollision(entity e);
+    virtual bool checkCollision(entity* e)=0;
     float getHitbox();
-    virtual bool update(int msElapsed);
+    virtual bool update(int msElapsed)=0;
     bool getDisabled();
     void setDisabled(bool d);
 

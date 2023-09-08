@@ -10,7 +10,7 @@ int sinceLastFrame;
 int main() {
     sinceLastFrame = 0;
     gameManager gm = gameManager::getInstance();
-    while(gm.gameOn_flag) {
+    while(gm.gameOn()) {
         before = chrono::steady_clock::now();
         gm.update(sinceLastFrame);
         after = chrono::steady_clock::now();

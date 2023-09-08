@@ -1,25 +1,33 @@
 #include "gameManager.h"
+#include <iostream>
 using namespace std;
 
 // TODO: enemy spawning
 // TODO: pause
-// TODO: rework allegiance (store separately)
 // TODO: entity collision
+// TODO: game over state
 
 gameManager::gameManager() {
-    weapon basic = weapon(1200);
-    weapon noWep = weapon(4000);
     shipTex.loadFromFile("../resource/1.png");
     projectileTex.loadFromFile("../resource/2.png");
-    index_entity.push_front(entity(0, 3, 450, 500, 30, 900, 600, shipTex, basic));
-    index_entity.push_front(entity(1, 3, 200, 100, 30, 900, 600, shipTex, noWep));
-    index_entity.push_front(entity(1, 3, 800, 200, 30, 900, 600, shipTex, noWep));
     p = new pool(100, projectileTex);
+    entity* newShip = new ship(3, 450.0f, 500.0f, 30.0f, 900.0f, 600.0f, shipTex, 1200);
+    team_0.push_front(newShip);
+    // temp spawning for testing
+    newShip = new ship(3, 200.0f, 100.0f, 30.0f, 900.0f, 600.0f, shipTex, 2000);
+    newShip->sprite.setRotation(180);
+    newShip->setVel_y(1.0f);
+    team_1.push_front(newShip);
+    newShip = new ship(3, 800.0f, 200.0f, 30.0f, 900.0f, 600.0f, shipTex, -1);
+    newShip->sprite.setRotation(180);
+    newShip->setVel_y(1.0f);
+    team_1.push_front(newShip);
+
     gameOn_flag = 1;
-    for(int i = 0; i < 5; i++) {
+    /*for(int i = 0; i < 5; i++) {
         spawnPoints[i] = 50 + i * (600 - 100) / 4;
 
-    }
+    }*/
 
 }
 
@@ -35,18 +43,24 @@ gameManager &gameManager::getInstance() {
 
 }
 
+bool gameManager::gameOn() {
+    return gameOn_flag;
+
+}
+
 void gameManager::left_down() {
-    index_entity.back().setVel_x(-4.0f);
+    // Player ship is always the oldest entity in team 0 list
+    team_0.back()->setVel_x(-1.0f);
 
 }
 
 void gameManager::right_down() {
-    index_entity.back().setVel_x(4.0f);
+    team_0.back()->setVel_x(1.0f);
 
 }
 
 void gameManager::reset_input() {
-    index_entity.back().setVel_x(0.0f);
+    team_0.back()->setVel_x(0.0f);
 
 }
 
@@ -55,8 +69,8 @@ void gameManager::pause() {
 }
 
 void gameManager::update(int msElapsed) {
+    wm.clear();
     // EVENT MANAGEMENT
-
     sf::Event e = wm.pollEvents();
     switch (e.type)
     {
@@ -71,6 +85,10 @@ void gameManager::update(int msElapsed) {
             break;
         case sf::Keyboard::Right:
             right_down();
+            break;
+        case sf::Keyboard::Space:
+                // debug
+                //team_0.back()->sprite.setRotation(team_0.back()->sprite.getRotation() + 180);
             break;
         }
         break;
@@ -90,58 +108,76 @@ void gameManager::update(int msElapsed) {
     // SPAWN NEW ENEMIES
 
 
-    // UPDATE GAMOBJECTS
+    // UPDATE GAMEOBJECTS
 
-    wm.clear();
-    list<entity>::iterator ei = index_entity.begin();
-    list<projectile>::iterator pi = index_projectile.begin();
-    while(ei != index_entity.end()) {
-        pi = index_projectile.begin();
+    list<entity*>::iterator t0 = team_0.begin();
+    list<entity*>::iterator t1 = team_1.begin();
+    while(t0 != team_0.end()) {
         // destroy
-        if(ei->disabled) {
-            ei->~entity();
-            ei = index_entity.erase(ei);
+        if((*t0)->getDisabled()) {
+            t0 = team_0.erase(t0);
 
         }
         else {
         // check collision
-            while(pi != index_projectile.end()) {
-                // check overlapping between two circle colliders AND take XOR of their allegiance (enemy / friendly)
-                if((ei->getDist(pi->sprite.getPosition().x, pi->sprite.getPosition().y) <= ei->getHitbox() + pi->getHitbox()) && (!ei->getEnemy() != !pi->getEnemy())) {
-                    pi->disabled = 1;
-                    ei->onHit(pi->getDamage());
-                    pi = index_projectile.erase(pi);
+            /*t1 = team_1.begin();
+            for(t1; t1 != team_1.end(); t1++) {
+                t0->checkCollision(*t1);
 
-                }
-                else {
-                    pi++;
-
-                }
-
-            }
-        // move
-            ei->move();
-        // shoot
-            if(ei->wep->shoot(msElapsed)) {
-                projectile temp = p->getNew(ei->getEnemy());
-                temp.sprite.setPosition(ei->sprite.getPosition());
-                index_projectile.push_back(temp);
+            }*/
+        // move and shoot
+            if((*t0)->update(msElapsed)) {
+                entity* temp = p->getNew();
+                temp->sprite.setPosition((*t0)->sprite.getPosition());
+                temp->setVel_y(-1.0f);
+                team_0.push_front(temp);
 
             }
         // draw
-            wm.add(ei->sprite);
+            wm.add((*t0)->sprite);
         // increment
-            ei++;
+            t0++;
 
         }
 
     }
 
-    for (pi = index_projectile.begin(); pi != index_projectile.end(); pi++) {
-        // move
-        pi->move();
+    /*if(team_0.begin()->getDisabled()) {
+        gameOn_flag = false;
+        // Lose state
+
+    }*/
+
+    // Sadly, all collisions will have to be checked twice
+    t1 = team_1.begin();
+    while(t1 != team_1.end()) {
+        // destroy
+        if((*t1)->getDisabled()) {
+            t1 = team_1.erase(t1);
+
+        }
+        else {
+        // check collision
+            /*t0 = team_0.begin();
+            for(t0; t0 != team_0.end(); t0++) {
+                t1->checkCollision(*t0);
+
+            }*/
+        // move and shoot
+            if((*t1)->update(msElapsed)) {
+                entity* temp = p->getNew();
+                temp->sprite.setPosition((*t1)->sprite.getPosition());
+                temp->sprite.setRotation(180);
+                temp->setVel_y(1.0f);
+                team_1.push_front(temp);
+
+            }
         // draw
-        wm.add(pi->sprite);
+            wm.add((*t1)->sprite);
+        // increment
+            t1++;
+
+        }
 
     }
     wm.show();

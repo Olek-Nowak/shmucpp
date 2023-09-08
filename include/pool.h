@@ -9,7 +9,7 @@ protected:
     std::vector<projectile*> bullets;
     int num;
 public:
-    projectile getNew();
+    projectile* getNew();
     pool(int buffer, sf::Texture &res);
     ~pool();
 

@@ -2,8 +2,6 @@
 #include "cmath"
 using namespace std;
 
-// TODO: boundries
-
 entity::entity() {
     
 }
@@ -22,17 +20,9 @@ void entity::setVel_y(float vy) {
 
 }
 
-bool entity::checkCollision(entity e) {
-    return false;
-}
-
 float entity::getHitbox() {
     return hitboxRadius;
 
-}
-
-bool entity::update(int msElapsed) {
-    return false;
 }
 
 bool entity::getDisabled() {

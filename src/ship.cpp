@@ -2,6 +2,8 @@
 #include "ship.h"
 using namespace std;
 
+// TODO: boundries
+
 ship::ship(int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, sf::Texture &res, int weaponCD) {
     disabled = 0;
     maxHealth = hp;
@@ -24,9 +26,9 @@ ship::~ship() {
 
 }
 
-bool ship::checkCollision(entity e) {
-    float dist = sqrtf(powf((sprite.getPosition().x - e.sprite.getPosition().x), 2.0f) + powf((sprite.getPosition().y - e.sprite.getPosition().y), 2.0f));
-    if(dist <= hitboxRadius + e.getHitbox()) {
+bool ship::checkCollision(entity* e) {
+    float dist = sqrtf(powf((sprite.getPosition().x - e->sprite.getPosition().x), 2.0f) + powf((sprite.getPosition().y - e->sprite.getPosition().y), 2.0f));
+    if(dist <= hitboxRadius + e->getHitbox()) {
         onHit(1);
         return true;
 
@@ -52,7 +54,7 @@ bool ship::update(int msElapsed) {
         pos[0] = boundries[0];
     if(pos[1] > boundries[1])
         pos[1] = boundries[1];*/
-    sprite.setPosition(sprite.getPosition().x + vel[0] * msElapsed, sprite.getPosition().y + vel[1] * msElapsed);
+    sprite.setPosition(vel[0] + sprite.getPosition().x, vel[1] + sprite.getPosition().y);
     if(maxCD <= 0)
         return 0;
     cooldown -= msElapsed;

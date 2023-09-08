@@ -12,10 +12,10 @@ private:
 public:
     ship(int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, sf::Texture &res, int weaponCD);
     ~ship();
-    bool checkCollision(entity e);
+    bool checkCollision(entity* e) override;
     void onHit(int damage);
     void destroy();
-    bool update(int msElapsed);
+    bool update(int msElapsed) override;
 
 };
 

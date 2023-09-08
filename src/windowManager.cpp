@@ -1,6 +1,8 @@
 #include "windowManager.h"
 using namespace std;
 
+// TODO: responsive window resizing
+
 windowManager::windowManager() {
     mainWindow = new sf::RenderWindow(sf::VideoMode(900, 600), "shmuCPP");
     mainWindow->setFramerateLimit(60);
