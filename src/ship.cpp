@@ -27,8 +27,8 @@ ship::~ship() {
 }
 
 bool ship::checkCollision(entity* e) {
-    // prevents already disabled (marked for delete) but not yet deleted projectiles
-    if(e->getDisabled() && e->getHitbox() < 6.0f)
+    // prevents already disabled (marked for delete) but not yet deleted entities
+    if(e->getDisabled())
         return false;
     float dist = sqrtf(powf((sprite.getPosition().x - e->sprite.getPosition().x), 2.0f) + powf((sprite.getPosition().y - e->sprite.getPosition().y), 2.0f));
     if(dist <= hitboxRadius + e->getHitbox()) {
@@ -42,8 +42,8 @@ bool ship::checkCollision(entity* e) {
 
 void ship::onHit(int damage) {
     health -= damage;
-    if(health <= 0)
-        disabled = 1;
+    if(health < 1)
+        disabled = true;
 
 }
 

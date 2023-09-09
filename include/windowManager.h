@@ -9,6 +9,7 @@ private:
     sf::RenderWindow* mainWindow;
     sf::Font font;
     windowManager();
+    int trackerHP;
 public:
     ~windowManager();
     static windowManager& getInstance();
@@ -18,6 +19,7 @@ public:
     void show();
     void loseScreen();
     void exit();
+    void updateUI(int delta);
     
 };
 

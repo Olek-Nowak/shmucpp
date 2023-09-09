@@ -1,4 +1,5 @@
 #include "windowManager.h"
+#include "string"
 using namespace std;
 
 // TODO: responsive window resizing
@@ -9,6 +10,7 @@ windowManager::windowManager() {
     mainWindow->setVerticalSyncEnabled(1);
     mainWindow->clear();
     font.loadFromFile("../resource/arial.ttf");
+    trackerHP = 3;
 
 }
 
@@ -44,6 +46,14 @@ void windowManager::add(sf::Sprite s) {
 }
 
 void windowManager::show() {
+    sf::Text hud;
+    hud.setFont(font);
+    string text = "HP: " + to_string(trackerHP);
+    hud.setString(text);
+    hud.setCharacterSize(20);
+    hud.setFillColor(sf::Color::Green);
+    hud.setPosition(0, 550);
+    mainWindow->draw(hud);
     mainWindow->display();
 
 }
@@ -54,7 +64,7 @@ void windowManager::loseScreen() {
     t.setString("GAME OVER");
     t.setCharacterSize(40);
     t.setFillColor(sf::Color::Red);
-    t.setPosition(450, 300);
+    t.setPosition(370, 250);
     mainWindow->draw(t);
     mainWindow->display();
 
@@ -62,5 +72,10 @@ void windowManager::loseScreen() {
 
 void windowManager::exit() {
     mainWindow->close();
+
+}
+
+void windowManager::updateUI(int delta) {
+    trackerHP += delta;
 
 }

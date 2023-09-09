@@ -5,20 +5,19 @@ using namespace std;
 // TODO: enemy spawning
 // TODO: pause
 // TODO: entity collision
-// TODO: game over state
 
 gameManager::gameManager() {
     shipTex.loadFromFile("../resource/1.png");
     projectileTex.loadFromFile("../resource/2.png");
     p = new pool(100, projectileTex);
-    entity* newShip = new ship(3, 450.0f, 500.0f, 30.0f, shipTex, 1200);
+    entity* newShip = new ship(3, 450.0f, 500.0f, 25.0f, shipTex, 1200);
     team_0.push_front(newShip);
     // temp spawning for testing
-    newShip = new ship(2, 200.0f, 100.0f, 30.0f, shipTex, 2000);
+    newShip = new ship(2, 200.0f, 100.0f, 25.0f, shipTex, 2000);
     newShip->sprite.setRotation(180);
-    newShip->setVel_y(0.0f);
+    newShip->setVel_y(1.0f);
     team_1.push_front(newShip);
-    newShip = new ship(1, 800.0f, 50.0f, 30.0f, shipTex, -1);
+    newShip = new ship(1, 800.0f, 50.0f, 25.0f, shipTex, -1);
     newShip->sprite.setRotation(180);
     newShip->setVel_y(1.8f);
     team_1.push_front(newShip);
@@ -50,12 +49,12 @@ bool gameManager::gameOn() {
 
 void gameManager::left_down() {
     // Player ship is always the oldest entity in team 0 list
-    team_0.back()->setVel_x(-3.0f);
+    team_0.back()->setVel_x(-2.4f);
 
 }
 
 void gameManager::right_down() {
-    team_0.back()->setVel_x(3.0f);
+    team_0.back()->setVel_x(2.4f);
 
 }
 
@@ -89,7 +88,6 @@ void gameManager::update(int msElapsed) {
             break;
         case sf::Keyboard::Space:
                 // debug
-                //team_0.back()->sprite.setRotation(team_0.back()->sprite.getRotation() + 180);
             break;
         }
         break;
@@ -116,9 +114,6 @@ void gameManager::update(int msElapsed) {
     while(t0 != team_0.end()) {
         // destroy
         if((*t0)->getDisabled()) {
-            // handles ship destruction
-            if((*t0)->getHitbox() > 6.0f)
-                delete (*t0);
             t0 = team_0.erase(t0);
 
         }
@@ -126,7 +121,8 @@ void gameManager::update(int msElapsed) {
         // check collision
             t1 = team_1.begin();
             for(t1; t1 != team_1.end(); t1++) {
-                (*t0)->checkCollision(*t1);
+                if((*t0)->checkCollision(*t1) && (*t0)->getHitbox() > 6.0f)
+                    wm.updateUI(-1);
 
             }
         // move and shoot
@@ -151,6 +147,9 @@ void gameManager::update(int msElapsed) {
     while(t1 != team_1.end()) {
         // destroy
         if((*t1)->getDisabled()) {
+            // handles ship destruction
+            if((*t1)->getHitbox() > 6.0f)
+                delete (*t1);
             t1 = team_1.erase(t1);
 
         }
