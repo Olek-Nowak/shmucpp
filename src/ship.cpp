@@ -4,13 +4,13 @@ using namespace std;
 
 // TODO: boundries
 
-ship::ship(int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, sf::Texture &res, int weaponCD) {
+ship::ship(int hp, float startx, float starty, float hitbox, sf::Texture &res, int weaponCD) {
     disabled = 0;
     maxHealth = hp;
     health = maxHealth;
     hitboxRadius = hitbox;
-    boundries[0] = boundryx;
-    boundries[1] = boundryy;
+    //boundries[0] = boundryx;
+    //boundries[1] = boundryy;
     vel[0] = 0.0f;
     vel[1] = 0.0f;
     maxCD = weaponCD;
@@ -27,6 +27,9 @@ ship::~ship() {
 }
 
 bool ship::checkCollision(entity* e) {
+    // prevents already disabled (marked for delete) but not yet deleted projectiles
+    if(e->getDisabled() && e->getHitbox() < 6.0f)
+        return false;
     float dist = sqrtf(powf((sprite.getPosition().x - e->sprite.getPosition().x), 2.0f) + powf((sprite.getPosition().y - e->sprite.getPosition().y), 2.0f));
     if(dist <= hitboxRadius + e->getHitbox()) {
         onHit(1);

@@ -14,20 +14,16 @@ projectile::projectile(sf::Texture &res) {
 }
 
 bool projectile::checkCollision(entity* e) {
+    // Checks if collision is between two projectiles - then no collision
+    if(e->getHitbox() < 6.0f)
+        return false;
     float dist = sqrtf(powf((sprite.getPosition().x - e->sprite.getPosition().x), 2.0f) + powf((sprite.getPosition().y - e->sprite.getPosition().y), 2.0f));
-    /*if(dist <= hitboxRadius + e.getHitbox()) {
-        // Checks if collision is between two projectiles - then no collision
-        if(e.getDisabled()) {
-            disabled = false;
-            e.setDisabled(false);
-            return false;
-
-        }
+    if(dist <= hitboxRadius + e->getHitbox()) {
         disabled = true;
         return true;
 
     }
-    else*/ return false;
+    else return false;
 
 }
 

@@ -11,16 +11,16 @@ gameManager::gameManager() {
     shipTex.loadFromFile("../resource/1.png");
     projectileTex.loadFromFile("../resource/2.png");
     p = new pool(100, projectileTex);
-    entity* newShip = new ship(3, 450.0f, 500.0f, 30.0f, 900.0f, 600.0f, shipTex, 1200);
+    entity* newShip = new ship(3, 450.0f, 500.0f, 30.0f, shipTex, 1200);
     team_0.push_front(newShip);
     // temp spawning for testing
-    newShip = new ship(3, 200.0f, 100.0f, 30.0f, 900.0f, 600.0f, shipTex, 2000);
+    newShip = new ship(2, 200.0f, 100.0f, 30.0f, shipTex, 2000);
     newShip->sprite.setRotation(180);
-    newShip->setVel_y(1.0f);
+    newShip->setVel_y(0.0f);
     team_1.push_front(newShip);
-    newShip = new ship(3, 800.0f, 200.0f, 30.0f, 900.0f, 600.0f, shipTex, -1);
+    newShip = new ship(1, 800.0f, 50.0f, 30.0f, shipTex, -1);
     newShip->sprite.setRotation(180);
-    newShip->setVel_y(1.0f);
+    newShip->setVel_y(1.8f);
     team_1.push_front(newShip);
 
     gameOn_flag = 1;
@@ -50,12 +50,12 @@ bool gameManager::gameOn() {
 
 void gameManager::left_down() {
     // Player ship is always the oldest entity in team 0 list
-    team_0.back()->setVel_x(-1.0f);
+    team_0.back()->setVel_x(-3.0f);
 
 }
 
 void gameManager::right_down() {
-    team_0.back()->setVel_x(1.0f);
+    team_0.back()->setVel_x(3.0f);
 
 }
 
@@ -76,6 +76,7 @@ void gameManager::update(int msElapsed) {
     {
     case sf::Event::Closed:
         gameOn_flag = 0;
+        wm.exit();
         break;
     case sf::Event::KeyPressed:
         switch (e.key.code)
@@ -115,21 +116,24 @@ void gameManager::update(int msElapsed) {
     while(t0 != team_0.end()) {
         // destroy
         if((*t0)->getDisabled()) {
+            // handles ship destruction
+            if((*t0)->getHitbox() > 6.0f)
+                delete (*t0);
             t0 = team_0.erase(t0);
 
         }
         else {
         // check collision
-            /*t1 = team_1.begin();
+            t1 = team_1.begin();
             for(t1; t1 != team_1.end(); t1++) {
-                t0->checkCollision(*t1);
+                (*t0)->checkCollision(*t1);
 
-            }*/
+            }
         // move and shoot
             if((*t0)->update(msElapsed)) {
                 entity* temp = p->getNew();
                 temp->sprite.setPosition((*t0)->sprite.getPosition());
-                temp->setVel_y(-1.0f);
+                temp->setVel_y(-3.6f);
                 team_0.push_front(temp);
 
             }
@@ -142,12 +146,6 @@ void gameManager::update(int msElapsed) {
 
     }
 
-    /*if(team_0.begin()->getDisabled()) {
-        gameOn_flag = false;
-        // Lose state
-
-    }*/
-
     // Sadly, all collisions will have to be checked twice
     t1 = team_1.begin();
     while(t1 != team_1.end()) {
@@ -158,17 +156,17 @@ void gameManager::update(int msElapsed) {
         }
         else {
         // check collision
-            /*t0 = team_0.begin();
+            t0 = team_0.begin();
             for(t0; t0 != team_0.end(); t0++) {
-                t1->checkCollision(*t0);
+                (*t1)->checkCollision(*t0);
 
-            }*/
+            }
         // move and shoot
             if((*t1)->update(msElapsed)) {
                 entity* temp = p->getNew();
                 temp->sprite.setPosition((*t1)->sprite.getPosition());
                 temp->sprite.setRotation(180);
-                temp->setVel_y(1.0f);
+                temp->setVel_y(3.6f);
                 team_1.push_front(temp);
 
             }
@@ -181,5 +179,12 @@ void gameManager::update(int msElapsed) {
 
     }
     wm.show();
+
+    if(team_0.back()->getDisabled()) {
+        // Lose state
+        gameOn_flag = false;
+        wm.loseScreen();
+
+    }
 
 }

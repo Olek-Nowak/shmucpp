@@ -7,6 +7,7 @@
 class windowManager : singleton {
 private:
     sf::RenderWindow* mainWindow;
+    sf::Font font;
     windowManager();
 public:
     ~windowManager();
@@ -15,6 +16,8 @@ public:
     void clear();
     void add(sf::Sprite s);
     void show();
+    void loseScreen();
+    void exit();
     
 };
 

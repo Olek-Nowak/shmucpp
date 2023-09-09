@@ -10,7 +10,7 @@ private:
     int maxCD;
     int cooldown;
 public:
-    ship(int hp, float startx, float starty, float hitbox, float boundryx, float boundryy, sf::Texture &res, int weaponCD);
+    ship(int hp, float startx, float starty, float hitbox, sf::Texture &res, int weaponCD);
     ~ship();
     bool checkCollision(entity* e) override;
     void onHit(int damage);

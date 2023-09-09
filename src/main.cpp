@@ -1,4 +1,5 @@
 #include <chrono>
+#include <thread>
 #include "gameManager.h"
 using namespace std;
 
@@ -16,7 +17,9 @@ int main() {
         after = chrono::steady_clock::now();
         sinceLastFrame = chrono::duration_cast<chrono::milliseconds>(after - before).count();
     }
-    gm.~gameManager();
 
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+
+    gm.~gameManager();
     return 0;
 }
