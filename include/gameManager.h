@@ -16,9 +16,11 @@ private:
     sf::Texture projectileTex;
     std::list<entity*> team_0;
     std::list<entity*> team_1;
-    float spawnPoints[5];
+    float spawnPoints[6];
     bool gameOn_flag;
     projectile* testp = nullptr;
+    float nextWave;
+    float nextWaveCD;
 public:
     ~gameManager();
     bool gameOn();

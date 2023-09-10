@@ -1,31 +1,24 @@
 #include "gameManager.h"
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 
 // TODO: enemy spawning
 // TODO: pause
 
 gameManager::gameManager() {
+    nextWaveCD = 4500;
+    nextWave = nextWaveCD - 1000;
     shipTex.loadFromFile("../resource/1.png");
     projectileTex.loadFromFile("../resource/2.png");
     p = new pool(100, projectileTex);
-    entity* newShip = new ship(3, 450.0f, 500.0f, 25.0f, shipTex, 1200);
-    team_0.push_front(newShip);
-    // temp spawning for testing
-    newShip = new ship(2, 200.0f, 100.0f, 25.0f, shipTex, 2000);
-    newShip->sprite.setRotation(180);
-    newShip->setVel_y(1.0f);
-    team_1.push_front(newShip);
-    newShip = new ship(1, 800.0f, 50.0f, 25.0f, shipTex, -1);
-    newShip->sprite.setRotation(180);
-    newShip->setVel_y(1.8f);
-    team_1.push_front(newShip);
-
+    entity* player = new ship(3, 450.0f, 500.0f, 25.0f, shipTex, 1200);
+    team_0.push_front(player);
     gameOn_flag = 1;
-    /*for(int i = 0; i < 5; i++) {
-        spawnPoints[i] = 50 + i * (600 - 100) / 4;
+    for(int i = 0; i < 6; i++) {
+        spawnPoints[i] = 50 + i * (600 - 100) / 6;
 
-    }*/
+    }
 
 }
 
@@ -105,6 +98,22 @@ void gameManager::update(int msElapsed) {
 
     // SPAWN NEW ENEMIES
 
+    nextWave += msElapsed;
+    if(nextWave >= nextWaveCD) {
+        for(int j = 0; j < 6; j++) {
+            int seed = rand() % 2;
+            if(seed >= 0.5) {
+                entity* newShip = new ship(1, spawnPoints[j], -10.0f, 25.0f, shipTex, 2200);
+                newShip->sprite.setRotation(180);
+                newShip->setVel_y(1.0f);
+                team_1.push_front(newShip);
+
+            }
+
+        }
+        nextWave = 0;
+
+    }
 
     // UPDATE GAMEOBJECTS
 

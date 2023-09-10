@@ -64,7 +64,7 @@ void windowManager::loseScreen() {
     t.setString("GAME OVER");
     t.setCharacterSize(40);
     t.setFillColor(sf::Color::Red);
-    t.setPosition(370, 250);
+    t.setPosition(320, 250);
     mainWindow->draw(t);
     mainWindow->display();
 
