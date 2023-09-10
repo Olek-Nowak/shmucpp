@@ -7,6 +7,7 @@ singleton::singleton() {
 }
 
 singleton& singleton::getInstance() {
-
+    static singleton s;
+    return s;
 
 }

@@ -2,15 +2,13 @@
 #include "ship.h"
 using namespace std;
 
-// TODO: boundries
-
 ship::ship(int hp, float startx, float starty, float hitbox, sf::Texture &res, int weaponCD) {
     disabled = 0;
     maxHealth = hp;
     health = maxHealth;
     hitboxRadius = hitbox;
-    //boundries[0] = boundryx;
-    //boundries[1] = boundryy;
+    boundries[0] = 400;
+    boundries[1] = 400;
     vel[0] = 0.0f;
     vel[1] = 0.0f;
     maxCD = weaponCD;
@@ -53,10 +51,18 @@ void ship::destroy() {
 }
 
 bool ship::update(int msElapsed) {
-    /*if(pos[0] > boundries[0])
-        pos[0] = boundries[0];
-    if(pos[1] > boundries[1])
-        pos[1] = boundries[1];*/
+    float px = sprite.getPosition().x;
+    float py = sprite.getPosition().y;
+    // boundries are defined as offsets from centre of screen (900x600)
+    if(px > 450 + boundries[0])
+        sprite.setPosition(450 + boundries[0],py);
+    if(px < 450 - boundries[0])
+        sprite.setPosition(450 - boundries[0],py);
+    if(py > 300 + boundries[1])
+        setDisabled(true);
+    if(py < 300 - boundries[1])
+        setDisabled(true);
+    
     sprite.setPosition(vel[0] + sprite.getPosition().x, vel[1] + sprite.getPosition().y);
     if(maxCD <= 0)
         return 0;

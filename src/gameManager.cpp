@@ -4,7 +4,6 @@ using namespace std;
 
 // TODO: enemy spawning
 // TODO: pause
-// TODO: entity collision
 
 gameManager::gameManager() {
     shipTex.loadFromFile("../resource/1.png");

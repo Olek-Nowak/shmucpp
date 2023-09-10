@@ -52,7 +52,7 @@ void windowManager::show() {
     hud.setString(text);
     hud.setCharacterSize(20);
     hud.setFillColor(sf::Color::Green);
-    hud.setPosition(0, 550);
+    hud.setPosition(50, 550);
     mainWindow->draw(hud);
     mainWindow->display();
 

@@ -10,6 +10,8 @@ projectile::projectile(sf::Texture &res) {
     sprite.setPosition(0.0f, 0.0f);
     setVel_x(0.0f);
     setVel_y(0.0f);
+    boundries[0] = 400;
+    boundries[1] = 400;
 
 }
 
@@ -28,11 +30,19 @@ bool projectile::checkCollision(entity* e) {
 }
 
 bool projectile::update(int msElapsed) {
-    /*if(pos[0] > boundries[0])
-    pos[0] = boundries[0];
-    if(pos[1] > boundries[1])
-    pos[1] = boundries[1];*/
-    sprite.setPosition(sprite.getPosition().x + vel[0], sprite.getPosition().y + vel[1]);
+    float px = sprite.getPosition().x;
+    float py = sprite.getPosition().y;
+    // boundries are defined as offsets from centre of screen (900x600)
+    /*if(px > 450 + boundries[0])
+        sprite.setPosition(450 + boundries[0],py);
+    if(px < 450 - boundries[0])
+        sprite.setPosition(450 - boundries[0],py);*/
+    if(py > 300 + boundries[1])
+        setDisabled(true);
+    if(py < 300 - boundries[1])
+        setDisabled(true);
+    sprite.setPosition(px, 450 + boundries[1]);
+    sprite.setPosition(px + vel[0], py + vel[1]);
     return 0;
 
 }
