@@ -3,7 +3,6 @@
 #include <cstdlib>
 using namespace std;
 
-// TODO: enemy spawning
 // TODO: pause
 
 gameManager::gameManager() {
